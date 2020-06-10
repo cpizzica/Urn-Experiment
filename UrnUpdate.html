@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="plugins/jspsych.js"></script>
+<script src="plugins/image-keyboard-response.js"></script>
+<script src="plugins/html-keyboard-response.js"></script>
+<script src="plugins/papaparse.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
+</head>
+<body></body>
+<script>
+
+var timeline = []
+var FreshBlock = 'on'
+var ChoiceDirection = ''
+var PreviousTrialIndex = 0
+var RelativeTrialIndex = 1
+var Correct = 0
+var TaskType = ''
+var Block_Index = 0
+var All_Type = ['Low_HMMActual','Low_MMActual','High_HMMActual','High_MMActual']
+var Block_Type = All_Type[Block_Index]
+
+     var script_picker = Math.floor((Math.random() * 1) + 1)
+
+
+    Low_HMMData = $ .get(`stimuli/low_hazard_HMM/low_hazard_HMM${script_picker}.csv`, function(){
+   Low_HMMActual = Papa.parse(Low_HMMData.responseText, {
+	   dynamicTyping: true
+   })
+            })
+    
+        Low_MMData = $ .get(`stimuli/low_hazard_MM/low_hazard_MM${script_picker}.csv`, function(){
+   Low_MMActual = Papa.parse(Low_MMData.responseText, {
+	   dynamicTyping: true
+   })
+            })
+    
+        High_HMMData = $ .get(`stimuli/high_hazard_HMM/high_hazard_HMM${script_picker}.csv`, function(){
+   High_HMMActual = Papa.parse(High_HMMData.responseText, {
+	   dynamicTyping: true
+   })
+            })
+    
+        High_MMData = $ .get(`stimuli/high_hazard_MM/high_hazard_MM${script_picker}.csv`, function(){
+   High_MMActual = Papa.parse(High_MMData.responseText, {
+	   dynamicTyping: true
+   })
+            })
+    
+function centered_message(message) {
+return '<div class="container" style="height:800px;width:800px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-weight:normal;font-family:Arial;font-size:20px">' + message + '<div>'
+}
+    
+    function centered_message_image(message) {
+return '<div class="container" style="height:200px;width:800px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:left;font-weight:normal;font-family:Arial;font-size:20px">' + message + '<div>'
+}
+
+         var Instruction_trial1 = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p>In this task you will see black or white beads being pulled from jars. Your goal is to predict the color of the next bead. Every time you guess the correct color, you will get a point. The more points you get, the higher your win bonus at the end of the experiment <br>Press the SPACEBAR to continue.</p>'),
+	 choices: ['spacebar'],
+	 prompt: '',     
+     };
+    
+             var Instruction_trial2 = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p>There are two types of jars. Jars filled only with a single colored bead, white or black, and jars filled with primarily white or black beads with a small percentage of the opposite color mixed in. <br>Press the SPACEBAR to continue. </p>'),
+	 choices: ['spacebar'],
+	 prompt: ''
+     };
+        
+             var Instruction_trial3 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'resources/WhiteJar_MM.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('A jar filled only with White Beads')
+     };
+    
+            var Instruction_trial4 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'resources/BlackJar_MM.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('A jar filled only with Black Beads')
+     };
+    
+            
+             var Instruction_trial5 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'resources/WhiteJar_HMM.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('A jar filled with 90% White Beads and 10% Black Beads')
+     };
+    
+            var Instruction_trial6 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'resources/BlackJar_HMM.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('A jar filled with 90% Black Beads and 10% White Beads')
+     };
+    
+                 var Instruction_trial7 = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p>You will be presented with two jars side by side. Jar sets will ONLY ever be 100% White and Black Jars paired together or 90/10 mixed jars paired together  <br>Press the SPACEBAR to continue. </p>'),
+	 choices: ['spacebar'],
+	 prompt: ''
+     }; 
+    
+            var Instruction_trial8 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/NoChoiceMM.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('Press the SPACEBAR to continue.')
+     };
+    
+                var Instruction_trial9 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/NoChoice.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('Press the SPACEBAR to continue.')
+     };
+    
+    var Instruction_trial10 = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p> The jar the beads are selected from is NOT choosen at random each time. At the start of each block, you will be presented with the probability that the jar drawn from during the previous trial is no longer selected and the beads are now being drawn from the opposite jar. <br>Press the SPACEBAR to continue. </p>'),
+	 choices: ['spacebar'],
+	 prompt: ''
+     }; 
+    
+    var Instruction_trial11 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/TutorialBlackJarDrawMM.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('Press the SPACEBAR to continue.')
+     };
+    
+    var Instruction_trial12 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/TutorialWhiteJarDrawMM.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('Press the SPACEBAR to continue.')
+     };
+    
+        var Instruction_trial13 = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p> When the jars are filled with only one color, the bead drawn is guaranteed to have come from the same-colored jar. During these blocks, you only have to be concerned about if the next jar selection will be the same or different than the previous selection. <br> However, as mentioned earlier, the jar sets will not always be filled with only one color. Certain blocks will contain jars that are filled 90% with one color and 10% with the other color.  </p>'),
+	 choices: ['spacebar'],
+	 prompt: ''
+     }; 
+    
+    
+        var Instruction_trial14 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/TutorialWhiteJarDrawHMMC.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('Press the SPACEBAR to continue.')
+     };
+    
+        var Instruction_trial15 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/TutorialBlackJarDrawHMMC.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('Press the SPACEBAR to continue.')
+     };
+    
+        var Instruction_trial16 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/TutorialBlackJarDrawHMMI.png',
+	 choices: ['spacebar'],
+	 prompt: centered_message_image('Press the SPACEBAR to continue.')
+     };
+    
+        var Instruction_trial17 = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p> As you observed, a white bead was drawn from a 90% black jar. A jar selection switch occured, but the bead color did not change. These mixed jar blocks will be more challenging. In order to make your bead prediction, you will have to factor in the rate of switching that occurs between jars and the probability of a white or black bead being selected from that jar. The mix proportions will remain the same in both jars for both blocks, however the probability of jar switching will not.</p>'),
+	 choices: ['spacebar'],
+	 prompt: ''
+     }; 
+    
+            var Instruction_trial18 = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p> As you observed, a white bead was drawn from a 90% black jar. A jar selection switch occured, but the bead color did not change. These mixed jar blocks will be more challenging. In order to make your bead prediction, you will have to factor in the rate of switching that occurs between jars and the probability of a white or black bead being selected from that jar. The mix proportions will remain the same in both jars for both blocks, however the probability of jar switching will not.</p>'),
+	 choices: ['spacebar'],
+	 prompt: ''
+     }; 
+    
+    var Instruction_trial19 = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p> You will now be given a 3 question quiz to make sure you understand the fundamentals. </p>'),
+	 choices: ['spacebar'],
+	 prompt: ''
+     }; 
+    
+    var Instruction_trial20 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/TutorialQuestion1.png',
+	 choices: ['rightarrow'],
+	 prompt: '',
+     on_finish: function(info) {
+         alert('Correct!')
+     }
+
+     };
+    
+        var Instruction_trial21 = {
+	 type: 'image-keyboard-response',
+	 stimulus: 'Images/TutorialQuestion2.png',
+	 choices: ['uparrow'],
+	 prompt: '',
+     on_finish: function(info) {
+         alert('Correct!')
+     }
+
+     };
+    
+    LHMM_text = '<p style="font-family:Arial;text-align:center;width:800px;font-size:20px">The probablity that the jar that was previously drawn from is switched to the opposite jar is 14%. <br><br> The jar on the left contains 90% black beads and 10% white balls. <br><br> The jar on the right contains 90% white beads and 10% black beads. <br><br> Press the SPACEBAR to continue.</p>'
+    
+    LMM_text = '<p style="font-family:Arial;text-align:center;width:800px;font-size:20px">The probablity that the jar that was previously drawn from is switched to the opposite jar is 10%. <br><br> The jar on the left contains 100% black beads and 0% white balls. <br><br> The jar on the right contains 100% white beads and 0% black beads. <br><br> Press the SPACEBAR to continue.</p>'
+     var Load_trial = {
+	 type: 'html-keyboard-response',
+	 stimulus: centered_message('<p>Loading episode&hellip;</p>'),
+	 choices: ['spacebar'],
+	 prompt: '',
+    on_start: function(trial) {
+                 var Block_Type = All_Type[Block_Index]
+
+                 		  switch(Block_Type) {
+                          
+                      case 'Low_HMMActual':
+                                  trial.prompt = LHMM_text
+
+                          break;
+                      case 'Low_MMActual':
+                                  trial.prompt = LMM_text
+
+                          break;
+                          }
+    },
+     on_finish: function(trial) {
+         var Block_Type = All_Type[Block_Index]
+
+         		  switch(Block_Type) {
+                          
+                      case 'Low_HMMActual':
+                          CurrentBlock = Low_HMMActual
+                          break;
+                      case 'Low_MMActual':
+                          CurrentBlock = Low_MMActual
+                          TaskType = 'MM'
+                          break;
+                  }
+     }
+     };
+
+
+  var TrialStart = {
+	  type: 'image-keyboard-response',
+	  stimulus: '',
+	  stimulus_width: 900,
+	  maintain_aspect_ratio: true,
+	  choices: ['leftarrow','rightarrow'],
+	  on_start: function(trial){
+
+          switch(FreshBlock) {
+                  case 'on':
+                  trial.stimulus = 'Images/NoChoice' + TaskType + '.png'
+                  BeadColor = CurrentBlock.data[RelativeTrialIndex][1]
+                  FreshBlock = 'off'
+                  break;
+                  case 'off':
+                    BeadColor = CurrentBlock.data[RelativeTrialIndex][1]
+                    PreviousBeadColor = CurrentBlock.data[RelativeTrialIndex-1][1]
+                  console.log(PreviousBeadColor)
+                                    console.log(CurrentBlock.data[1][1])
+
+		              switch(PreviousBeadColor) {
+		                  case 1:
+			                 trial.stimulus = 'Images/NewTrialBC' + TaskType + '.png'
+			                 break;
+                          case 2:
+			                 trial.stimulus = 'Images/NewTrialWC'  + TaskType + '.png'
+			                 break;
+                  
+          }
+          }
+      },	  
+
+	  on_finish: function(trial){
+		  if(trial.key_press === 37) {
+		  ChoiceDirection = '1'
+		  }
+		  if(trial.key_press === 39) {
+		  	ChoiceDirection = '2'
+		  }
+
+	  },
+  }
+  
+  var SubjectChoice = {
+	  type: 'image-keyboard-response',
+	  stimulus: '',
+	  stimulus_width: 900,
+	  maintain_aspect_ratio: true,
+	  trial_duration: 500,
+	  response_ends_trial: false,
+	  on_start: function(trial){
+		  
+		  switch(ChoiceDirection) {  
+		  case '1':
+		  trial.stimulus = 'Images/BlackBeadChoice' + TaskType + '.png'
+			  break;
+		  case '2':	    
+		  	trial.stimulus = 'Images/WhiteBeadChoice'  + TaskType + '.png'
+			  break
+		  }
+	  },
+  }
+  
+  
+  var BeadAppears = {
+	  type: 'image-keyboard-response',
+	  stimulus: '',
+	  stimulus_width: 900,
+	  maintain_aspect_ratio: true,
+	  trial_duration: 500,
+	  response_ends_trial: false,
+	  on_start: function(trial){
+          		  
+		  BeadAppearsImage = ChoiceDirection + BeadColor
+		  
+		  switch(BeadAppearsImage) {
+			  
+		  case '22':
+		  trial.stimulus = 'Images/WhiteBeadChoiceCorrect'  + TaskType + '.png'
+                  Correct += 1
+			  break;
+		  case '21':
+		  trial.stimulus = 'Images/WhiteBeadChoiceWrong' + TaskType + '.png'
+			  break;
+		  case '12':	    
+		  	trial.stimulus = 'Images/BlackBeadChoiceWrong' + TaskType + '.png'
+			  break
+		  case '11':	    
+		  	trial.stimulus = 'Images/BlackBeadChoiceCorrect' + TaskType + '.png'
+                  Correct += 1
+			  break
+		  }
+                    RelativeTrialIndex += 1
+
+	  },
+  }
+  
+  var reset_trial = {
+ type: 'html-keyboard-response',
+ stimulus: '',
+ choices: ['spacebar'],
+ prompt: '',
+      on_start: function(trial){
+     trial.prompt = '<p style="height:800px;width:800px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-weight:normal;font-family:Arial;font-size:20px">&hellip;done. End of the episode. Your score in this episode was: ' + Correct + ' <br> Press SPACEBAR to continue'
+      },
+      on_finish: function(trial){
+     FreshBlock = 'on'
+    RelativeTrialIndex = 1
+    Block_Index += 1
+
+      }
+  };
+  
+  
+  var experiment_block = {
+      timeline: [TrialStart,SubjectChoice,BeadAppears],
+      repetitions: 5}
+  
+  var instruction_block = {
+      timeline: [Instruction_trial1, Instruction_trial2, Instruction_trial3, Instruction_trial4, Instruction_trial5, Instruction_trial6, Instruction_trial7, Instruction_trial8, Instruction_trial9, Instruction_trial10, Instruction_trial11, Instruction_trial12, Instruction_trial13, Instruction_trial14, Instruction_trial15, Instruction_trial16, Instruction_trial17, Instruction_trial18, Instruction_trial19, Instruction_trial20, Instruction_trial21],
+      repetitions:0}
+  
+
+	  
+  jsPsych.init({
+    preload: [Low_HMMData, Low_MMData, High_HMMData, High_MMData],
+    timeline: [instruction_block, Load_trial, experiment_block, reset_trial, Load_trial, experiment_block],
+
+    on_finish: function() {
+      jsPsych.data.displayData();
+    }
+  });
+</script>
+
+</html>
