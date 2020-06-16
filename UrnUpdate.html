@@ -61,14 +61,14 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
 
          var Instruction_trial1 = {
 	 type: 'html-keyboard-response',
-	 stimulus: centered_message('<p>In this task you will see black or white beads being pulled from jars. Your goal is to predict the color of the next bead. Every time you guess the correct color, you will get a point. The more points you get, the higher your win bonus at the end of the experiment <br>Press the SPACEBAR to continue.</p>'),
+	 stimulus: centered_message('<p>In this task you will see black or white beads being pulled from jars. <br><br>On each trial, a bead will be pulled from one of two jars. Once you see this bead, your goal is to predict the color of NEXT bead that will be pulled. <br> <br>Every time you correctly guess the color of the NEXT bead, you will get a point. The more points you get, the higher your win bonus at the end of the experiment <br><br>Press the SPACEBAR to continue.</p>'),
 	 choices: ['spacebar'],
 	 prompt: '',     
      };
     
              var Instruction_trial2 = {
 	 type: 'html-keyboard-response',
-	 stimulus: centered_message('<p>There are two types of jars. Jars filled only with a single colored bead, white or black, and jars filled with primarily white or black beads with a small percentage of the opposite color mixed in. <br>Press the SPACEBAR to continue. </p>'),
+	 stimulus: centered_message('<p>There are two types of jars:<br><br>1) Jars filled with ONLY white or black beads<br><br>2) Jars filled with 90% white or black beads and 10% of the opposite color mixed in<br><br>Press the SPACEBAR to continue. </p>'),
 	 choices: ['spacebar'],
 	 prompt: ''
      };
@@ -104,7 +104,7 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
     
                  var Instruction_trial7 = {
 	 type: 'html-keyboard-response',
-	 stimulus: centered_message('<p>You will be presented with two jars side by side. Jar sets will ONLY ever be 100% White and Black Jars paired together or 90/10 mixed jars paired together  <br>Press the SPACEBAR to continue. </p>'),
+	 stimulus: centered_message('<p>There will be four blocks of trials. In each block, you will see the pair of jars that beads will be pulled from.<br><br>The pair of jars used in each block will ONLY ever be 100% white and black jars, or 90/10 mixed jars. <br><br>The pair of jars in each block will not change until the next block.<br><br>Here are examples of what you will see on each trial.<br><br>Press the SPACEBAR to continue. </p>'),
 	 choices: ['spacebar'],
 	 prompt: ''
      }; 
@@ -125,7 +125,7 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
     
     var Instruction_trial10 = {
 	 type: 'html-keyboard-response',
-	 stimulus: centered_message('<p> The jar the beads are selected from is NOT choosen at random each time. At the start of each block, you will be presented with the probability that the jar drawn from during the previous trial is no longer selected and the beads are now being drawn from the opposite jar. <br>Press the SPACEBAR to continue. </p>'),
+	 stimulus: centered_message('<p> The jar the beads are pulled from is NOT choosen at random on each trial.<br><br>After each prediction, there will be a chance that the jars will switch, and that the next bead will be pulled from the opposite jar as the previous trial.<br><br>In each block, the chance that a jar will switch will either be LOW (the jars will not switch very often), or HIGH (the jars will switch almost all the time).<br><br>At the start of each block, you will be told the probability that the jars will switch on each trial. This switch probability will stay constant throughout the block.<br><br>Press the SPACEBAR to continue. </p>'),
 	 choices: ['spacebar'],
 	 prompt: ''
      }; 
@@ -146,7 +146,7 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
     
         var Instruction_trial13 = {
 	 type: 'html-keyboard-response',
-	 stimulus: centered_message('<p> When the jars are filled with only one color, the bead drawn is guaranteed to have come from the same-colored jar. During these blocks, you only have to be concerned about if the next jar selection will be the same or different than the previous selection. <br> However, as mentioned earlier, the jar sets will not always be filled with only one color. Certain blocks will contain jars that are filled 90% with one color and 10% with the other color.  </p>'),
+	 stimulus: centered_message('<p> When the jars are filled with only one color, each bead is guaranteed to have come from the same-colored jar. During these blocks, the best strategy is to use the jar switch probability to predict whether the next bead will be the same or different from the previous trial.<br><br> When the jars contain a mix of black and white beads, you will sometimes see black beads pulled from the mostly white jar, and white beads pulled from the mostly black jar. <br><br>Here is an example.<br><br>Press the SPACEBAR to continue.  </p>'),
 	 choices: ['spacebar'],
 	 prompt: ''
      }; 
@@ -175,26 +175,19 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
     
         var Instruction_trial17 = {
 	 type: 'html-keyboard-response',
-	 stimulus: centered_message('<p> As you observed, a white bead was drawn from a 90% black jar. A jar selection switch occured, but the bead color did not change. These mixed jar blocks will be more challenging. In order to make your bead prediction, you will have to factor in the rate of switching that occurs between jars and the probability of a white or black bead being selected from that jar. The mix proportions will remain the same in both jars for both blocks, however the probability of jar switching will not.</p>'),
+	 stimulus: centered_message('<p> As you observed, a white bead was pulled from a 90% white jar, the jars switched and a black bead was pulled from the 90% black jar, but then low-probability white bead was pulled from the 90% black jar. <br><br>In these mixed-jar blocks, you will first have to figure out which jar the current bead was pulled from, then use the jar switch probability to predict the color of the next bead.<br><br>Press SPACEBAR to conitnue.</p>'),
 	 choices: ['spacebar'],
 	 prompt: ''
      }; 
     
-            var Instruction_trial18 = {
-	 type: 'html-keyboard-response',
-	 stimulus: centered_message('<p> As you observed, a white bead was drawn from a 90% black jar. A jar selection switch occured, but the bead color did not change. These mixed jar blocks will be more challenging. In order to make your bead prediction, you will have to factor in the rate of switching that occurs between jars and the probability of a white or black bead being selected from that jar. The mix proportions will remain the same in both jars for both blocks, however the probability of jar switching will not.</p>'),
-	 choices: ['spacebar'],
-	 prompt: ''
-     }; 
-    
-    var Instruction_trial19 = {
+    var Instruction_trial18 = {
 	 type: 'html-keyboard-response',
 	 stimulus: centered_message('<p> You will now be given a 3 question quiz to make sure you understand the fundamentals. </p>'),
 	 choices: ['spacebar'],
 	 prompt: ''
      }; 
     
-    var Instruction_trial20 = {
+    var Instruction_trial19 = {
 	 type: 'image-keyboard-response',
 	 stimulus: 'Images/TutorialQuestion1.png',
 	 choices: ['rightarrow'],
@@ -205,7 +198,7 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
 
      };
     
-        var Instruction_trial21 = {
+        var Instruction_trial20 = {
 	 type: 'image-keyboard-response',
 	 stimulus: 'Images/TutorialQuestion2.png',
 	 choices: ['uparrow'],
@@ -375,7 +368,7 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
       repetitions: 5}
   
   var instruction_block = {
-      timeline: [Instruction_trial1, Instruction_trial2, Instruction_trial3, Instruction_trial4, Instruction_trial5, Instruction_trial6, Instruction_trial7, Instruction_trial8, Instruction_trial9, Instruction_trial10, Instruction_trial11, Instruction_trial12, Instruction_trial13, Instruction_trial14, Instruction_trial15, Instruction_trial16, Instruction_trial17, Instruction_trial18, Instruction_trial19, Instruction_trial20, Instruction_trial21],
+      timeline: [Instruction_trial1, Instruction_trial2, Instruction_trial3, Instruction_trial4, Instruction_trial5, Instruction_trial6, Instruction_trial7, Instruction_trial8, Instruction_trial9, Instruction_trial10, Instruction_trial11, Instruction_trial12, Instruction_trial13, Instruction_trial14, Instruction_trial15, Instruction_trial16, Instruction_trial17, Instruction_trial18, Instruction_trial19, Instruction_trial20],
       repetitions:0}
   
 
