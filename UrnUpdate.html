@@ -6,12 +6,23 @@
 <script src="plugins/image-keyboard-response.js"></script>
 <script src="plugins/html-keyboard-response.js"></script>
 <script src="plugins/papaparse.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="plugins/jspsych-survey-text.js"></script>
+<script type="text/javascript" src="plugins/jspsych-survey-multi-choice.js"></script>
+<script type="text/javascript" src="plugins/jspsych-external-html.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 
 </head>
 <body></body>
 <script>
+	/* var pavlovia_init = {
+	    type: "pavlovia",
+	    command: "init"
+	};
+	timeline.push(pavlovia_init);
+*/
+
 
 var timeline = []
 var FreshBlock = 'on'
@@ -58,6 +69,40 @@ return '<div class="container" style="height:800px;width:800px;display:flex;flex
     function centered_message_image(message) {
 return '<div class="container" style="height:200px;width:800px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:left;font-weight:normal;font-family:Arial;font-size:20px">' + message + '<div>'
 }
+
+/* var consent = {
+    type:'external-html', 
+    url: consent.html, 
+    cont_btn: "start", 
+    check_fn: check_consent
+}
+timeline.push(consent)
+
+var Gender_options = ["Male", "Female", "Transgender", "Do Not Wish To Say"];
+var Ethnicity_options = ["American Indian or Alaskan Native","Asian","Black or African American","Native Hawaiian or Pacific Islander","White","Hispanic or Latino","Other","Do Not Wish to Respond"]
+var demographics = {
+	type: "survey-multi-choice",
+	questions: [{prompt:"Gender Orientation:", options: Gender_options, required:true,}, 
+	{prompt:"Ethnicity:", options: Ethnicity_options, required:true}],
+	   };
+var age = {
+type: "survey-text",
+questions: [{prompt: "How old are you?"}],
+post_trial_gap: 100
+	   };
+
+var ProlificID = {
+type: "survey-text",
+questions: [{prompt: "Please Enter your ProlificID"}],
+post_trial_gap: 100
+	   };
+
+timeline.push(demographics)	   
+timeline.push(age)
+timeline.push(ProlificID)
+
+*/
+
 
          var Instruction_trial1 = {
 	 type: 'html-keyboard-response',
@@ -212,6 +257,12 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
     LHMM_text = '<p style="font-family:Arial;text-align:center;width:800px;font-size:20px">The probablity that the jar that was previously drawn from is switched to the opposite jar is 14%. <br><br> The jar on the left contains 90% black beads and 10% white balls. <br><br> The jar on the right contains 90% white beads and 10% black beads. <br><br> Press the SPACEBAR to continue.</p>'
     
     LMM_text = '<p style="font-family:Arial;text-align:center;width:800px;font-size:20px">The probablity that the jar that was previously drawn from is switched to the opposite jar is 10%. <br><br> The jar on the left contains 100% black beads and 0% white balls. <br><br> The jar on the right contains 100% white beads and 0% black beads. <br><br> Press the SPACEBAR to continue.</p>'
+	 
+	 HHMM_text = '<p style="font-family:Arial;text-align:center;width:800px;font-size:20px">The probablity that the jar that was previously drawn from is switched to the opposite jar is 86%. <br><br> The jar on the left contains 90% black beads and 10% white balls. <br><br> The jar on the right contains 90% white beads and 10% black beads. <br><br> Press the SPACEBAR to continue.</p>'
+	 
+	     HMM_text = '<p style="font-family:Arial;text-align:center;width:800px;font-size:20px">The probablity that the jar that was previously drawn from is switched to the opposite jar is 90%. <br><br> The jar on the left contains 100% black beads and 0% white balls. <br><br> The jar on the right contains 100% white beads and 0% black beads. <br><br> Press the SPACEBAR to continue.</p>'
+	 
+	 
      var Load_trial = {
 	 type: 'html-keyboard-response',
 	 stimulus: centered_message('<p>Loading episode&hellip;</p>'),
@@ -230,6 +281,17 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
                                   trial.prompt = LMM_text
 
                           break;
+						  
+					  case 'High_HMMActual':
+					              trial.prompt = HHMM_text
+						  
+						  break;
+						  
+					  case 'High_MMActual':
+						  		 trial.prompt = HMM_text
+						  
+						  break;
+						  
                           }
     },
      on_finish: function(trial) {
@@ -239,9 +301,18 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
                           
                       case 'Low_HMMActual':
                           CurrentBlock = Low_HMMActual
+						  TaskType = ''
+                          break;
+                      case 'High_HMMActual':
+                          CurrentBlock = High_HMMActual
+						  TaskType = ''
                           break;
                       case 'Low_MMActual':
                           CurrentBlock = Low_MMActual
+                          TaskType = 'MM'
+                          break;
+                      case 'High_MMActual':
+                          CurrentBlock = High_MMActual
                           TaskType = 'MM'
                           break;
                   }
@@ -266,8 +337,6 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
                   case 'off':
                     BeadColor = CurrentBlock.data[RelativeTrialIndex][1]
                     PreviousBeadColor = CurrentBlock.data[RelativeTrialIndex-1][1]
-                  console.log(PreviousBeadColor)
-                                    console.log(CurrentBlock.data[1][1])
 
 		              switch(PreviousBeadColor) {
 		                  case 1:
@@ -297,7 +366,7 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
 	  stimulus: '',
 	  stimulus_width: 900,
 	  maintain_aspect_ratio: true,
-	  trial_duration: 500,
+	  trial_duration: 250,
 	  response_ends_trial: false,
 	  on_start: function(trial){
 		  
@@ -358,6 +427,7 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
      FreshBlock = 'on'
     RelativeTrialIndex = 1
     Block_Index += 1
+    Correct = 0
 
       }
   };
@@ -365,22 +435,35 @@ return '<div class="container" style="height:200px;width:800px;display:flex;flex
   
   var experiment_block = {
       timeline: [TrialStart,SubjectChoice,BeadAppears],
-      repetitions: 5}
+      repetitions: 200}
   
   var instruction_block = {
       timeline: [Instruction_trial1, Instruction_trial2, Instruction_trial3, Instruction_trial4, Instruction_trial5, Instruction_trial6, Instruction_trial7, Instruction_trial8, Instruction_trial9, Instruction_trial10, Instruction_trial11, Instruction_trial12, Instruction_trial13, Instruction_trial14, Instruction_trial15, Instruction_trial16, Instruction_trial17, Instruction_trial18, Instruction_trial19, Instruction_trial20],
       repetitions:0}
   
-
+	 /* var pavlovia_finish = {
+	      type: "pavlovia",
+	      command: "finish"
+	  };
+	  timeline.push(pavlovia_finish); 
+*/
 	  
   jsPsych.init({
     preload: [Low_HMMData, Low_MMData, High_HMMData, High_MMData],
-    timeline: [instruction_block, Load_trial, experiment_block, reset_trial, Load_trial, experiment_block],
+	  timeline: [instruction_block, Load_trial, experiment_block, reset_trial, Load_trial, experiment_block, reset_trial, Load_trial, experiment_block, reset_trial, Load_trial, experiment_block, reset_trial],
+      on_data_update: function(data){
+  	jsPsych.data.get().addToLast({Script_Picker: script_picker})
+	  },
 
     on_finish: function() {
       jsPsych.data.displayData();
-    }
-  });
+	  /*on_finish: function() {
+	          document.body.innerHTML = '<p> Please wait. You will be redirected back to Prolific in a few moments.</p>'
+	          setTimeout(function () { location.href = prolific_href }, 5000) 
+	  
+    }*/
+  }
+});
 </script>
 
 </html>
